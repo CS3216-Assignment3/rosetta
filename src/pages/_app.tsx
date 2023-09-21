@@ -15,7 +15,9 @@ const titan = Titan_One({
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <main className={`${inter.variable} ${titan.variable} font-inter`}>
+        <main
+            className={`${inter.variable} ${titan.variable} font-inter bg-rosetta-white h-screen flex flex-col`}
+        >
             <Component {...pageProps} />
         </main>
     );
