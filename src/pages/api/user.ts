@@ -4,6 +4,8 @@ import User from "@/models/user"
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
+    ok: boolean,
+    userId?: string
     message: string
 }
 
@@ -12,13 +14,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     try {
         const { name, email } = await req.body
         await connectMongoDB()
-        await User.create({ name, email })
-        res.status(200).json({ message: "User registered" })
+        const newUser = await User.create({ name, email })
+        const userId = newUser._id
+        res.status(200).json({ 
+            ok: true,
+            userId,
+            message: "User registered" 
+        })
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "An error occurred"})
+        res.status(500).json({
+            ok: false,
+            message: `An error occurred: ${error}`
+        })
     }
     return;
   }
-  res.status(200).json({ message: "Hello World"})
+  res.status(200).json({ ok: true, message: "Hello World"})
 }
