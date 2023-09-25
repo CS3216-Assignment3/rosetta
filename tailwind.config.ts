@@ -9,7 +9,6 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                "rosetta-white": "#fbfbfb",
                 "rosetta-navy": "#09006d",
                 "rosetta-orange": "#ff5e00",
                 "rosetta-lime": "#b1e600",
