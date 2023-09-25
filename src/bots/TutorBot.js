@@ -21,7 +21,7 @@ Things to take note of while evaluating your student's message:
 3. Your student is at the beginner level for German
 `;
 
-export default class TutorBot {
+class TutorBot {
     constructor(openai) {
         this.openai = openai;
     }

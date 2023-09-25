@@ -15,7 +15,7 @@ Things to take note of while chatting with your friend:
 1. Chat and respond in German
 `;
 
-export default class ChatBot {
+class ChatBot {
     constructor(openai) {
         this.openai = openai;
         this.messages = [
