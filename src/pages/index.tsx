@@ -2,25 +2,27 @@ import Link from "next/link";
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col items-center p-24 w-full h-full">
-            <div className="flex flex-col gap-12 items-center">
-                <p className="text-9xl uppercase text-rosetta-orange font-titan">
-                    Rosetta
-                </p>
-                <div className="flex gap-20 justify-center w-full">
-                    <Link
-                        className="p-4 w-full text-2xl font-bold text-center rounded-lg duration-300 ease-in-out bg-rosetta-orange text-rosetta-white hover:bg-rosetta-navy"
-                        href="/signin"
-                    >
-                        Sign In
-                    </Link>
-                    <Link
-                        className="p-4 w-full text-2xl font-bold text-center rounded-lg duration-300 ease-in-out bg-rosetta-orange text-rosetta-white hover:bg-rosetta-navy"
-                        href="/signup"
-                    >
-                        Sign Up
-                    </Link>
-                </div>
+        <div className="flex flex-col gap-12 items-center pt-24 w-full h-full">
+            <p className="text-5xl font-bold text-center">
+                Learning languages one{" "}
+                <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rosetta-sienna to-rosetta-green">
+                    conversation{" "}
+                </span>
+                at a time.
+            </p>
+            <div className="grid grid-cols-2 gap-12 justify-center">
+                <Link
+                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-300 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-green"
+                    href="/signin"
+                >
+                    Sign In
+                </Link>
+                <Link
+                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-300 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-green"
+                    href="/signup"
+                >
+                    Sign Up
+                </Link>
             </div>
         </div>
     );

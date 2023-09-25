@@ -1,33 +1,38 @@
-import NavBar from "@/components/navbar";
-
 export default function SignInPage() {
     return (
-        <>
-            <NavBar />
-            <div className="flex flex-col justify-center items-center w-full h-full">
-                <div className="flex flex-col gap-8 items-center p-20 rounded-lg border">
-                    <h1 className="text-5xl font-bold">Sign In</h1>
-                    <div className="flex flex-col gap-4">
-                        <label className="flex flex-col gap-1">
-                            Email
-                            <input
-                                type="email"
-                                className="rounded-lg border-gray-200"
-                            />
-                        </label>
-                        <label className="flex flex-col gap-1">
-                            Password
-                            <input
-                                type="password"
-                                className="rounded-lg border-gray-200"
-                            />
-                        </label>
-                    </div>
-                    <button className="p-4 w-full text-xl font-bold rounded-lg duration-300 ease-in-out bg-rosetta-orange text-rosetta-white hover:bg-rosetta-navy">
-                        Sign In
-                    </button>
+        <div className="flex flex-col gap-8 items-center pt-12 h-full">
+            <h1 className="text-3xl font-bold">
+                Sign in to <span className="text-rosetta-sienna">Rosetta</span>.
+            </h1>
+            <div className="flex flex-col gap-8 items-center w-1/4 h-full">
+                <button className="flex justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow">
+                    Connect with Google
+                </button>
+                <div className="flex gap-2 items-center w-full">
+                    <div className="w-full border-t border-gray-200"></div>
+                    <p className="w-min">or</p>
+                    <div className="w-full border-t border-gray-200"></div>
                 </div>
+                <form className="flex flex-col gap-4 items-center w-full">
+                    <label className="flex flex-col gap-1 w-full">
+                        Email
+                        <input
+                            type="email"
+                            className="rounded-lg border-gray-200 shadow-inner"
+                        />
+                    </label>
+                    <label className="flex flex-col gap-1 w-full">
+                        Password
+                        <input
+                            type="password"
+                            className="rounded-lg border-gray-200 shadow-inner"
+                        />
+                    </label>
+                </form>
+                <button className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-300 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-green">
+                    Sign In
+                </button>
             </div>
-        </>
+        </div>
     );
 }
