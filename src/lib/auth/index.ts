@@ -2,6 +2,7 @@ import {
     UserCredential,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signOut,
 } from "firebase/auth";
 import { firebaseAuth } from "@/firebase/config";
 import { createUser } from "@/lib/storage/user";
@@ -43,4 +44,15 @@ async function signIn(email: string, password: string) {
     return { result, error };
 }
 
-export { signUp, signIn };
+async function logOut() {
+    let result = undefined;
+    let error = undefined;
+    try {
+        result = await signOut(firebaseAuth);
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
+export { signUp, signIn, logOut };
