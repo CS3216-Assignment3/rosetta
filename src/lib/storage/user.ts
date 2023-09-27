@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { firebaseDB } from "@/firebase/config";
+import { firebaseDB } from "@/lib/firebase/config";
 import { UserCredential } from "firebase/auth";
 import type { User } from "./models";
 

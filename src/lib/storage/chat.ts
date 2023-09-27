@@ -7,7 +7,7 @@ import {
     addDoc,
     updateDoc,
 } from "firebase/firestore";
-import { firebaseDB } from "@/firebase/config";
+import { firebaseDB } from "@/lib/firebase/config";
 import type { UserMessage, BotMessage } from "./models";
 
 type CreateChatFields = {

@@ -4,7 +4,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
 } from "firebase/auth";
-import { firebaseAuth } from "@/firebase/config";
+import { firebaseAuth } from "@/lib/firebase/config";
 import { createUser } from "@/lib/storage/user";
 
 async function signUp(email: string, password: string) {
