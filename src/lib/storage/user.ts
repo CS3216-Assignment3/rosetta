@@ -7,14 +7,7 @@ async function createUser(cred: UserCredential) {
     let result = undefined;
     let error = undefined;
     try {
-        const newUser: User = {
-            id: cred.user.uid,
-            email: cred.user.email ?? "",
-            nativeLanguage: "",
-            currentLanguage: "",
-            currentProficiency: "",
-            topicPreferences: [],
-        };
+        const newUser: User = { nativeLanguage: "" };
         result = await setDoc(
             doc(firebaseDB, "users", cred.user.uid),
             newUser,

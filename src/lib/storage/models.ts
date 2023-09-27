@@ -1,13 +1,9 @@
 type User = {
-    id: string;
-    email: string;
     nativeLanguage: string;
-    currentLanguage: string;
-    currentProficiency: string;
-    topicPreferences: string[];
 };
 
 type Chat = {
+    id: string;
     botName: string;
     language: string;
     topic: string;
