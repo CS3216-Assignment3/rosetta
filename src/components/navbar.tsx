@@ -47,7 +47,7 @@ function Links() {
         return (
             <>
                 <Link
-                    href={{ pathname: "/lobby", query: { section: "chats" } }}
+                    href="/lobby?section=chats"
                     className="text-lg font-medium"
                 >
                     Lobby

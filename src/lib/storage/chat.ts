@@ -5,6 +5,7 @@ import {
     getDoc,
     getDocs,
     addDoc,
+    setDoc,
     updateDoc,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
@@ -26,6 +27,7 @@ async function createChat(userId: string, fields: CreateChatFields) {
             collection(firebaseDB, "users", userId, "chats"),
             fields,
         );
+        await setDoc(result, { id: result.id }, { merge: true });
     } catch (e) {
         error = e;
     }
