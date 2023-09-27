@@ -46,7 +46,10 @@ function Links() {
     } else {
         return (
             <>
-                <Link href="/lobby" className="text-lg font-medium">
+                <Link
+                    href={{ pathname: "/lobby", query: { section: "chats" } }}
+                    className="text-lg font-medium"
+                >
                     Lobby
                 </Link>
                 <Link href="/chat" className="text-lg font-medium">
