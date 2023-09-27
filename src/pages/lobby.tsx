@@ -1,11 +1,19 @@
 import LobbySectionSelector from "@/components/lobby-section-selector";
 import LobbySidePanel from "@/components/lobby-side-panel";
+import { useAuth } from "@/lib/auth/context";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function LobbyPage() {
+    const { loading, user } = useAuth();
     const router = useRouter();
     const [section, setSection] = useState<string>();
+
+    useEffect(() => {
+        if (!loading && user === undefined) {
+            router.push("/");
+        }
+    }, [loading, user]);
 
     useEffect(() => {
         if (router.isReady) {
