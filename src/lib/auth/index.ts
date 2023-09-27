@@ -7,6 +7,9 @@ import {
     signInWithPopup,
     getAdditionalUserInfo,
     AdditionalUserInfo,
+    updateProfile,
+    User,
+    updatePassword,
 } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase/config";
 import { createUser } from "@/lib/storage/user";
@@ -90,6 +93,36 @@ async function signInWithGoogle() {
     return { result, error };
 }
 
+type UserProfileFields = {
+    displayName?: string | undefined;
+    photoURL?: string | undefined;
+};
+
+async function updateUserProfile(
+    user: User,
+    userProfileFields: UserProfileFields,
+) {
+    let result = undefined;
+    let error = undefined;
+    try {
+        result = await updateProfile(user, userProfileFields);
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
+async function updateUserPassword(user: User, password: string) {
+    let result = undefined;
+    let error = undefined;
+    try {
+        result = await updatePassword(user, password);
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
 async function logOut() {
     let result = undefined;
     let error = undefined;
@@ -101,4 +134,12 @@ async function logOut() {
     return { result, error };
 }
 
-export { signUp, signUpWithGoogle, signIn, signInWithGoogle, logOut };
+export {
+    signUp,
+    signUpWithGoogle,
+    signIn,
+    signInWithGoogle,
+    updateUserProfile,
+    updateUserPassword,
+    logOut,
+};
