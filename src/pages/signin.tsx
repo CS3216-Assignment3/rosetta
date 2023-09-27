@@ -1,4 +1,4 @@
-import { signIn, authWithGoogle } from "@/lib/auth";
+import { signIn, signInWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export default function SignInPage() {
     };
 
     const handleSignInWithGoogle = async () => {
-        const { result, error } = await authWithGoogle();
+        const { result, error } = await signInWithGoogle();
         if (error) {
             return console.log(error);
         }
