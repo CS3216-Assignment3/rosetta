@@ -1,4 +1,4 @@
-import { signUp, authWithGoogle } from "@/lib/auth";
+import { signUp, signUpWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export default function SignUpPage() {
     };
 
     const handleSignUpWithGoogle = async () => {
-        const { result, error } = await authWithGoogle();
+        const { result, error } = await signUpWithGoogle();
         if (error) {
             return console.log(error);
         }

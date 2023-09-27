@@ -5,6 +5,8 @@ import {
     signOut,
     GoogleAuthProvider,
     signInWithPopup,
+    getAdditionalUserInfo,
+    AdditionalUserInfo,
 } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase/config";
 import { createUser } from "@/lib/storage/user";
@@ -33,6 +35,28 @@ async function signUp(email: string, password: string) {
     return { result, error };
 }
 
+async function signUpWithGoogle() {
+    let result: UserCredential | undefined = undefined;
+    let error = undefined;
+    try {
+        result = await signInWithPopup(firebaseAuth, googleProvider);
+        const additionalInfo = getAdditionalUserInfo(
+            result,
+        ) as AdditionalUserInfo;
+        if (!additionalInfo.isNewUser) {
+            await signOut(firebaseAuth);
+            throw new Error("already signed up with google");
+        }
+        const { error: dbError } = await createUser(result);
+        if (dbError) {
+            throw new Error("error creating user");
+        }
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
 async function signIn(email: string, password: string) {
     let result: UserCredential | undefined = undefined;
     let error = undefined;
@@ -48,11 +72,18 @@ async function signIn(email: string, password: string) {
     return { result, error };
 }
 
-async function authWithGoogle() {
+async function signInWithGoogle() {
     let result: UserCredential | undefined = undefined;
     let error = undefined;
     try {
         result = await signInWithPopup(firebaseAuth, googleProvider);
+        const additionalInfo = getAdditionalUserInfo(
+            result,
+        ) as AdditionalUserInfo;
+        if (additionalInfo.isNewUser) {
+            await result.user.delete();
+            throw new Error("new user, please sign up first");
+        }
     } catch (e) {
         error = e;
     }
@@ -70,4 +101,4 @@ async function logOut() {
     return { result, error };
 }
 
-export { signUp, signIn, authWithGoogle, logOut };
+export { signUp, signUpWithGoogle, signIn, signInWithGoogle, logOut };
