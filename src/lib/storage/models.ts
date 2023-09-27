@@ -4,7 +4,7 @@ type User = {
     nativeLanguage: string;
     currentLanguage: string;
     currentProficiency: string;
-    favouriteTopics: string[];
+    topicPreferences: string[];
 };
 
 type Chat = {

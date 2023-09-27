@@ -13,7 +13,7 @@ async function createUser(cred: UserCredential) {
             nativeLanguage: "",
             currentLanguage: "",
             currentProficiency: "",
-            favouriteTopics: [],
+            topicPreferences: [],
         };
         result = await setDoc(
             doc(firebaseDB, "users", cred.user.uid),
