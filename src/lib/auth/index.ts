@@ -3,9 +3,13 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase/config";
 import { createUser } from "@/lib/storage/user";
+
+const googleProvider = new GoogleAuthProvider();
 
 async function signUp(email: string, password: string) {
     let result: UserCredential | undefined = undefined;
@@ -44,6 +48,17 @@ async function signIn(email: string, password: string) {
     return { result, error };
 }
 
+async function signInWithGoogle() {
+    let result: UserCredential | undefined = undefined;
+    let error = undefined;
+    try {
+        result = await signInWithPopup(firebaseAuth, googleProvider);
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
 async function logOut() {
     let result = undefined;
     let error = undefined;
@@ -55,4 +70,4 @@ async function logOut() {
     return { result, error };
 }
 
-export { signUp, signIn, logOut };
+export { signUp, signIn, signInWithGoogle, logOut };
