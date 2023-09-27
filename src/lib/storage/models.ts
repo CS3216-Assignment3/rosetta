@@ -19,7 +19,7 @@ type UserMessage = {
     body: string;
     evaluation: {
         mistake: boolean;
-        body: string;
+        content: string;
     };
 };
 
