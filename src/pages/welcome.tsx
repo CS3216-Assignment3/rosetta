@@ -11,8 +11,8 @@ export default function WelcomePage() {
                 !
             </p>
             <Link
+                href="/lobby?section=chats"
                 className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
-                href={{ pathname: "lobby", query: { section: "chats" } }}
             >
                 Go To Lobby
             </Link>

@@ -12,14 +12,14 @@ export default function HomePage() {
             </p>
             <div className="grid grid-cols-2 gap-12 justify-center">
                 <Link
-                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                     href="/signin"
+                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                 >
                     Sign In
                 </Link>
                 <Link
-                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                     href="/signup"
+                    className="py-4 px-8 text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                 >
                     Sign Up
                 </Link>
