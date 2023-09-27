@@ -18,7 +18,7 @@ export default function SignUpPage() {
             return console.log(error);
         }
         console.log(result);
-        router.push("/welcome");
+        router.push("/onboarding");
     };
 
     const handleSignUpWithGoogle = async () => {
@@ -27,7 +27,7 @@ export default function SignUpPage() {
             return console.log(error);
         }
         console.log(result);
-        return router.push("/welcome");
+        router.push("/onboarding");
     };
 
     return (

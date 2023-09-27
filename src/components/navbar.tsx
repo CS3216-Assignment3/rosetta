@@ -8,7 +8,7 @@ export default function NavBar() {
         <div className="flex justify-between items-center py-4 px-8 border-b shadow">
             <Link
                 href="/"
-                className="text-3xl font-extrabold text-transparent uppercase bg-clip-text bg-gradient-to-tr from-rosetta-coral to-rosetta-orange"
+                className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-tr from-rosetta-coral to-rosetta-orange"
             >
                 Rosetta
             </Link>
