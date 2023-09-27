@@ -1,7 +1,6 @@
 import { inspect } from "util";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ChatPromptTemplate } from "langchain/prompts";
-import rosettaChatBot from "./ChatBot";
 
 const MODEL = "gpt-3.5-turbo";
 const TEMPERATURE = 0.5
@@ -63,9 +62,9 @@ class TutorBot {
 
         this.log.push(chatModelResult)
 
-        return chatModelResult;
+        return chatModelResult.content;
     }
 }
 
-rosettaTutorBot = new TutorBot(chatModel, tutorPrompt);
+const rosettaTutorBot = new TutorBot(chatModel, tutorPrompt);
 export default rosettaTutorBot;

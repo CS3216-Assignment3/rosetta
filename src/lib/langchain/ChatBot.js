@@ -27,12 +27,9 @@ const chatPrompt = ChatPromptTemplate.fromMessages([
 
 class ChatBot {
     constructor(chatModel, chatPrompt) {
-        this.chatModel;
-        this.chatPrompt;
-        this.messages = [
-            { role: "system", content: CHAT_SYSTEM_PROMPT },
-            { role: "assistant", content: GREETING },
-        ];
+        this.chatModel = chatModel;
+        this.chatPrompt = chatPrompt;
+        this.messages = [];
     }
 
     async sendMessage(topic, proficiency, language, text) {
@@ -58,9 +55,9 @@ class ChatBot {
 
         this.messages.push(chatModelResult);
 
-        return chatModelResult;
+        return chatModelResult.content;
     }
 }
 
-rosettaChatBot = new ChatBot(chatModel, chatPrompt);
+const rosettaChatBot = new ChatBot(chatModel, chatPrompt);
 export default rosettaChatBot;
