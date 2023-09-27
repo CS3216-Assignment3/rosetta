@@ -24,8 +24,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const unsub = firebaseAuth.onAuthStateChanged((currUser) => {
-            if (currUser) {
+            if (currUser !== null) {
                 setUser(currUser);
+            } else {
+                setUser(undefined);
             }
             console.log("currUser:", currUser);
             setLoading(false);
