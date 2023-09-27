@@ -48,7 +48,7 @@ async function signIn(email: string, password: string) {
     return { result, error };
 }
 
-async function signInWithGoogle() {
+async function authWithGoogle() {
     let result: UserCredential | undefined = undefined;
     let error = undefined;
     try {
@@ -70,4 +70,4 @@ async function logOut() {
     return { result, error };
 }
 
-export { signUp, signIn, signInWithGoogle, logOut };
+export { signUp, signIn, authWithGoogle, logOut };

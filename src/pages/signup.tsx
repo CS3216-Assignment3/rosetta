@@ -1,4 +1,4 @@
-import { signUp, signInWithGoogle } from "@/firebase/auth";
+import { signUp, authWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -21,15 +21,14 @@ export default function SignUpPage() {
         router.push("/welcome");
     };
 
-    const handleSignInWithGoogle = async (e: any) => {
-        e.preventDefault();
-        const { result, error } = await signInWithGoogle();
+    const handleSignUpWithGoogle = async () => {
+        const { result, error } = await authWithGoogle();
         if (error) {
-            return console.log(error)
+            return console.log(error);
         }
-        console.log(result)
-        return router.push("/lobby")
-    }
+        console.log(result);
+        return router.push("/welcome");
+    };
 
     return (
         <div className="flex flex-col gap-8 items-center pt-12 h-full">
@@ -38,9 +37,10 @@ export default function SignUpPage() {
             </h1>
 
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">
-                <button 
-                onClick={handleSignInWithGoogle}
-                className="flex justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow">
+                <button
+                    onClick={handleSignUpWithGoogle}
+                    className="flex justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow"
+                >
                     Connect with Google
                 </button>
 
