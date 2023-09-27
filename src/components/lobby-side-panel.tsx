@@ -8,10 +8,10 @@ export default function LobbySidePanel({
     return (
         <div
             id="container"
-            className="flex flex-col p-4 w-1/4 bg-gray-200 rounded-lg"
+            className="flex flex-col p-4 w-1/5 bg-gray-200 rounded-lg"
         >
             <Link
-                href={{ pathname: "/lobby", query: { section: "chats" } }}
+                href="/lobby?section=chats"
                 className={`py-2 px-4 w-full font-bold text-left rounded-lg hover:text-white hover:bg-rosetta-orange ${
                     section === "chats" ? "bg-gray-300" : ""
                 }`}
@@ -19,7 +19,7 @@ export default function LobbySidePanel({
                 Chats
             </Link>
             <Link
-                href={{ pathname: "/lobby", query: { section: "history" } }}
+                href="/lobby?section=history"
                 className={`py-2 px-4 w-full font-bold text-left rounded-lg hover:text-white hover:bg-rosetta-orange ${
                     section === "history" ? "bg-gray-300" : ""
                 }`}
@@ -27,7 +27,7 @@ export default function LobbySidePanel({
                 History
             </Link>
             <Link
-                href={{ pathname: "/lobby", query: { section: "profile" } }}
+                href="/lobby?section=profile"
                 className={`py-2 px-4 w-full font-bold text-left rounded-lg hover:text-white hover:bg-rosetta-orange ${
                     section === "profile" ? "bg-gray-300" : ""
                 }`}
