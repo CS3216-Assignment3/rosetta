@@ -14,7 +14,7 @@ export default function SignInPage() {
             return console.log(error);
         }
         console.log(result);
-        return router.push("/lobby");
+        router.push("/lobby");
     };
 
     const handleSignInWithGoogle = async () => {
@@ -23,7 +23,7 @@ export default function SignInPage() {
             return console.log(error);
         }
         console.log(result);
-        return router.push("/lobby");
+        router.push("/lobby");
     };
 
     return (
