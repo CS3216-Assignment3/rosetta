@@ -12,15 +12,20 @@ const config: Config = {
                 "rosetta-navy": "#09006d",
                 "rosetta-orange": "#ff5e00",
                 "rosetta-lime": "#b1e600",
+
                 "rosetta-sienna": "#ee6c4d",
                 "rosetta-coral": "#f38d68",
                 "rosetta-purple": "#662c91",
                 "rosetta-green": "#17a398",
                 "rosetta-jet": "#33312e",
+
+                "rosetta-cerulean": "#006e90",
+                "rosetta-carrot": "#f18f01",
+                "rosetta-columbia": "#adcad6",
+                "rosetta-yelleen": "#99c24d",
+                "rosetta-aero": "#41bbd9",
             },
             fontFamily: {
-                inter: ["var(--font-inter)"],
-                titan: ["var(--font-titan)"],
                 baloo: ["var(--font-baloo)"],
             },
             boxShadow: {
