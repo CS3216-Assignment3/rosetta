@@ -83,7 +83,7 @@ export default function SignUpPage() {
 
                     <button
                         type="submit"
-                        className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-300 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-green"
+                        className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                     >
                         Sign Up
                     </button>
