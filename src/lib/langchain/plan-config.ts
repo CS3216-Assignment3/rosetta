@@ -10,34 +10,33 @@ import {
 const SYSTEM_TEMPLATE = `
 You are a kind, patient, and encouraging tutor teaching {language} to {nativeLanguage} speaking students.
 I am a student learning {language} from you.
-Please give feedback on my response to an interaction I had with my {person} friend, enclosed in triple quotes.
-We were talking about {topic}.
+I had a conversation with my {person} friend about {topic}.
+These are the mistakes I made during the conversation I had with my friend, enclosed in triple quotes.
+Each mistake is separated by a new line and is accompanied with a piece of feedback.
 
 """
-friend: {botMessage}
-student: {userMessage}
+{mistakes}
 """
 
-Notes on how to give feedback on the interaction:
-1. Correct my grammar and offer suggestions on how to correct my message if needed
-2. Correct my vocabulary and phrases used, and offer better alternatives if needed
-3. The interaction is casual in nature
-4. Keep your feedback short and concise
-5. If my response was nonsense, please offer suggestions on how I could have responded to my friend
-6. I am learning {language} at the {proficiency} level
-7. Give your feedback in {nativeLanguage}
+Based on the mistakes I made in the conversation, please create a study plan for me to improve my {language}.
+
+Notes on how to create study plan:
+1. Create a list of the 5 linguistic topics and concepts I should study for {language}
+2. I am learning {language} at the {proficiency} level
+3. I speak {nativeLanguage}, so respond in {nativeLanguage}
 `;
 
 const responseSchema = z.object({
-    correct: z
-        .boolean()
-        .describe("A boolean flag denoting if my message is correct or not."),
-    content: z
-        .string()
-        .describe("The main content of the evalution of my message."),
+    plan: z
+        .array(
+            z.object({
+                topic: z.string().describe("The name of the topic to study"),
+            }),
+        )
+        .describe("An array of topics to study"),
 });
 
-function makeTutorChain() {
+function makePlanChain() {
     const prompt = ChatPromptTemplate.fromMessages([
         SystemMessagePromptTemplate.fromTemplate(SYSTEM_TEMPLATE),
     ]);
@@ -63,4 +62,4 @@ function makeTutorChain() {
     return prompt.pipe(functionCallingModel).pipe(outputParser);
 }
 
-export { makeTutorChain };
+export { makePlanChain };

@@ -12,6 +12,7 @@ type Chat = {
     topic: string;
     proficiency: string;
     readOnly: boolean;
+    plan: Plan;
 };
 
 type Message = {
@@ -24,4 +25,6 @@ type Message = {
     };
 };
 
-export type { User, Chat, Message };
+type Plan = { topic: string }[];
+
+export type { User, Chat, Message, Plan };

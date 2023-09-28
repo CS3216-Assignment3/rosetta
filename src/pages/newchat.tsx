@@ -23,7 +23,6 @@ export default function NewChatPage() {
             language: elements.language.value,
             proficiency: elements.proficiency.value,
             topic: elements.topic.value,
-            readOnly: false,
         });
         if (error !== undefined || result === undefined) {
             return console.log("error creating chat");
@@ -72,6 +71,7 @@ export default function NewChatPage() {
                         <option value="food">Food</option>
                         <option value="sports">Sports</option>
                         <option value="art">Art</option>
+                        <option value="gaming">Gaming</option>
                     </select>
                 </label>
 

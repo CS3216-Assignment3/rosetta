@@ -16,7 +16,6 @@ export default function LobbyChatsSection() {
                 if (error !== undefined) {
                     return console.log(error);
                 }
-                console.log("set chats");
                 setChats(result as Chat[]);
             }
         })();
@@ -27,10 +26,10 @@ export default function LobbyChatsSection() {
     }
 
     return (
-        <div className="flex flex-col gap-8 w-full h-full">
+        <div className="flex flex-col gap-4 w-full h-full">
             <Link
                 href="/newchat"
-                className="py-2 px-4 w-max font-medium bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:bg-rosetta-orange hover:shadow-inset2"
+                className="py-2 px-4 w-max text-2xl font-bold bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:bg-rosetta-orange hover:shadow-inset2"
             >
                 New Chat
             </Link>
