@@ -10,20 +10,26 @@ const config: Config = {
         extend: {
             colors: {
                 "rosetta-navy": "#09006d",
-                "rosetta-orange": "#ff5e00",
                 "rosetta-lime": "#b1e600",
 
+                "rosetta-orange": "#ff5e00",
                 "rosetta-sienna": "#ee6c4d",
                 "rosetta-coral": "#f38d68",
-                "rosetta-purple": "#662c91",
-                "rosetta-green": "#17a398",
                 "rosetta-jet": "#33312e",
 
-                "rosetta-cerulean": "#006e90",
-                "rosetta-carrot": "#f18f01",
-                "rosetta-columbia": "#adcad6",
-                "rosetta-yelleen": "#99c24d",
-                "rosetta-aero": "#41bbd9",
+                "blaze-orange": {
+                    "50": "#fff7ec",
+                    "100": "#ffeed3",
+                    "200": "#ffd9a5",
+                    "300": "#ffbe6d",
+                    "400": "#ff9632",
+                    "500": "#ff770a",
+                    "600": "#ff5e00",
+                    "700": "#cc4202",
+                    "800": "#a1340b",
+                    "900": "#822d0c",
+                    "950": "#461404",
+                },
             },
             fontFamily: {
                 baloo: ["var(--font-baloo)"],
