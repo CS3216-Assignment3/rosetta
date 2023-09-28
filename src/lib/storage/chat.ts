@@ -9,7 +9,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
-import type { UserMessage, BotMessage } from "./models";
+import type { Message } from "./models";
 
 type CreateChatFields = {
     botName: string;
@@ -62,15 +62,11 @@ async function getChatsByUser(userId: string) {
     return { result, error };
 }
 
-async function addUserMessage(
-    userId: string,
-    chatId: string,
-    message: UserMessage,
-) {
-    let result = undefined;
+async function getMessagesByChat(userId: string, chatId: string) {
+    let result: any[] = [];
     let error = undefined;
     try {
-        result = await addDoc(
+        const q = query(
             collection(
                 firebaseDB,
                 "users",
@@ -79,19 +75,18 @@ async function addUserMessage(
                 chatId,
                 "messages",
             ),
-            message,
         );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            result.push(doc.data());
+        });
     } catch (e) {
         error = e;
     }
     return { result, error };
 }
 
-async function addBotMessage(
-    userId: string,
-    chatId: string,
-    message: BotMessage,
-) {
+async function addMessage(userId: string, chatId: string, message: Message) {
     let result = undefined;
     let error = undefined;
     try {
@@ -130,7 +125,7 @@ export {
     createChat,
     getChatById,
     getChatsByUser,
-    addUserMessage,
-    addBotMessage,
+    getMessagesByChat,
+    addMessage,
     updateReadOnlyChat,
 };

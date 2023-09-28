@@ -11,16 +11,13 @@ type Chat = {
     readOnly: boolean;
 };
 
-type UserMessage = {
-    body: string;
+type Message = {
+    user: string;
+    bot: string;
     evaluation: {
         mistake: boolean;
         content: string;
     };
 };
 
-type BotMessage = {
-    body: string;
-};
-
-export type { User, Chat, UserMessage, BotMessage };
+export type { User, Chat, Message };
