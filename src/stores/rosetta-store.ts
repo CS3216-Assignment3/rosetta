@@ -1,18 +1,22 @@
 import { Chat, Message } from "@/lib/storage/models";
 import { create } from "zustand";
 
-interface ChatState {
+interface RosettaState {
+    chats: Chat[];
+    setChats: (c: Chat[]) => void;
     chat: Chat | undefined;
-    messages: Message[];
     setChat: (c: Chat) => void;
+    messages: Message[];
     setMessages: (m: Message[]) => void;
 }
 
-const useChatStore = create<ChatState>()((set) => ({
+const useStore = create<RosettaState>()((set) => ({
+    chats: [],
+    setChats: (c) => set({ chats: c }),
     chat: undefined,
-    messages: [],
     setChat: (c) => set({ chat: c }),
+    messages: [],
     setMessages: (m) => set({ messages: m }),
 }));
 
-export { useChatStore };
+export { useStore };
