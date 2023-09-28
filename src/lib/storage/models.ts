@@ -19,7 +19,7 @@ type Message = {
     user: string;
     bot: string;
     evaluation: {
-        mistake: boolean;
+        correct: boolean;
         content: string;
     };
 };

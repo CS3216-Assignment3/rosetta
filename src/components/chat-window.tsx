@@ -3,9 +3,10 @@ import { useAuth } from "@/lib/auth/context";
 import { addMessage, getChatById, getMessagesByChat } from "@/lib/storage/chat";
 import { Chat, Message } from "@/lib/storage/models";
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import metadata from "public/languagemetadata.json";
 import { useStore } from "@/stores/rosetta-store";
+import { getUser } from "@/lib/storage/user";
 
 export default function ChatWindow() {
     const { loading, user } = useAuth();
@@ -15,6 +16,7 @@ export default function ChatWindow() {
     const messages = useStore((state) => state.messages);
     const setMessages = useStore((state) => state.setMessages);
     const formRef = useRef<HTMLFormElement>(null);
+    const [disabled, setDisabled] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -53,15 +55,22 @@ export default function ChatWindow() {
     const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
+            setDisabled(true);
             if (user === undefined) {
-                return console.log("not signed in");
+                throw Error("not signed in");
             }
             if (chat === undefined) {
-                return console.log("chat is undefined");
+                throw Error("chat is undefined");
             }
             const input = formRef.current?.elements["input"].value as string;
             if (input === "") {
-                return console.log("empty input");
+                throw Error("empty input");
+            }
+            const { result: userDetails, error: getUserError } = await getUser(
+                user.uid,
+            );
+            if (getUserError !== undefined || userDetails === undefined) {
+                throw getUserError;
             }
             const apiResponse = await (
                 await fetch("/api/chat", {
@@ -71,24 +80,31 @@ export default function ChatWindow() {
                         "content-type": "application/json",
                     },
                     body: JSON.stringify({
+                        input,
+                        nativeLanguage: userDetails.nativeLanguage,
                         language: chat.language,
                         topic: chat.topic,
                         proficiency: chat.proficiency,
                         history: messages,
-                        input,
                     }),
                 })
             ).json();
             const newMessage = apiResponse.message;
             console.log("handleSendMessage", newMessage);
-            const { error } = await addMessage(user.uid, chat.id, newMessage);
-            if (error !== undefined) {
-                return console.log("error adding message", error);
+            const { error: addMessageError } = await addMessage(
+                user.uid,
+                chat.id,
+                newMessage,
+            );
+            if (addMessageError !== undefined) {
+                throw addMessageError;
             }
             setMessages([newMessage, ...messages]);
             formRef.current?.reset();
+            setDisabled(false);
         } catch (e) {
-            return console.log(e);
+            setDisabled(false);
+            return console.log("handleSendMessage", e);
         }
     };
 
@@ -120,11 +136,13 @@ export default function ChatWindow() {
                 <input
                     type="text"
                     name="input"
+                    disabled={disabled}
                     placeholder="type message here"
                     className="w-full rounded-lg border-gray-200 shadow-inner"
                 />
                 <button
                     type="submit"
+                    disabled={disabled}
                     className="rounded-full w-[30px] h-[30px] bg-rosetta-sienna"
                 ></button>
             </form>
