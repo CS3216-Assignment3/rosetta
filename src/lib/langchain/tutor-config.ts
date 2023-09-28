@@ -25,7 +25,7 @@ Notes on how to give feedback on the interaction:
 4. Keep your feedback short and concise
 5. If my response was nonsense, please offer suggestions on how I could have responded to my friend
 6. I am learning {language} at the {proficiency} level
-7. I speak {nativeLanguage}, so give your feedback in {nativeLanguage}
+7. Give your feedback in {nativeLanguage}
 `;
 
 const responseSchema = z.object({
