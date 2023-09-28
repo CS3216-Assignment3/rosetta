@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ChatCard from "@/components/chat-card";
+import LobbyChatCard from "@/components/lobby-chat-card";
 import { useAuth } from "@/lib/auth/context";
 import { useEffect, useState } from "react";
 import { Chat } from "@/lib/storage/models";
@@ -35,7 +35,9 @@ export default function LobbyChatsSection() {
                 New Chat
             </Link>
             <div className="flex flex-wrap gap-4 w-full h-full">
-                {chats?.map((chat) => <ChatCard chat={chat} key={chat.id} />)}
+                {chats?.map((chat) => (
+                    <LobbyChatCard chat={chat} key={chat.id} />
+                ))}
             </div>
         </div>
     );
