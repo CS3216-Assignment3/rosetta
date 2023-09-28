@@ -1,4 +1,86 @@
+import { useAuth } from "@/lib/auth/context";
+import { addMessage, getChatById, getMessagesByChat } from "@/lib/storage/chat";
+import { Chat, Message } from "@/lib/storage/models";
+import { useRouter } from "next/router";
+import { FormEvent, useEffect, useState } from "react";
+
 export default function ChatPage() {
+    const { loading, user } = useAuth();
+    const router = useRouter();
+    const [chat, setChat] = useState<Chat>();
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            if (
+                router.query.id !== undefined &&
+                !loading &&
+                user !== undefined
+            ) {
+                const chatId = router.query.id as string;
+
+                const { result: chatResult, error: chatError } =
+                    await getChatById(user.uid, chatId);
+                if (chatError !== undefined) {
+                    return console.log("error getting chat", chatError);
+                }
+                setChat(chatResult as Chat);
+                console.log(chatResult);
+
+                const { result: messagesResult, error: messagesError } =
+                    await getMessagesByChat(user.uid, chatId);
+                if (messagesError !== undefined) {
+                    return console.log("error getting messages", messagesError);
+                }
+                setMessages(messagesResult as Message[]);
+                console.log(messagesResult);
+            }
+        })();
+    }, [router.query.id, loading, user]);
+
+    const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (user === undefined) {
+            return console.log("not signed in");
+        }
+        if (chat === undefined) {
+            return console.log("error getting chat");
+        }
+        const input = (
+            e.currentTarget.elements.namedItem("input") as HTMLInputElement
+        ).value as string;
+        if (input === "") {
+            return console.log("empty input");
+        }
+        const newMessage = await (
+            await fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    language: chat.language,
+                    topic: chat.topic,
+                    proficiency: chat.proficiency,
+                    history: messages,
+                    input,
+                }),
+            })
+        ).json();
+        console.log("new message", newMessage);
+        const { result, error } = await addMessage(
+            user.uid,
+            chat.id,
+            newMessage,
+        );
+        if (error !== undefined) {
+            return console.log("error adding message", error);
+        }
+        console.log(result);
+        e.currentTarget.reset();
+    };
+
     return (
         <div className="flex overflow-hidden flex-col items-center pt-4 w-full h-full flex-start">
             <div
@@ -43,9 +125,13 @@ export default function ChatPage() {
                         hello?
                     </p>
                 </div>
-                <form className="flex gap-4 items-center w-full h-min">
+                <form
+                    onSubmit={handleSendMessage}
+                    className="flex gap-4 items-center w-full h-min"
+                >
                     <input
                         type="text"
+                        name="input"
                         placeholder="type message here"
                         className="w-full rounded-lg border-gray-200 shadow-inner"
                     />
