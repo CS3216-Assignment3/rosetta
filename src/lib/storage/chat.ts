@@ -12,13 +12,13 @@ import {
     where,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
+import { Plan } from "@/lib/storage/models";
 
 type CreateChatFields = {
     botName: string;
     language: string;
     topic: string;
     proficiency: string;
-    readOnly: boolean;
 };
 
 async function createChat(userId: string, fields: CreateChatFields) {
@@ -27,7 +27,12 @@ async function createChat(userId: string, fields: CreateChatFields) {
     try {
         result = await addDoc(
             collection(firebaseDB, "users", userId, "chats"),
-            { ...fields, timestamp: serverTimestamp() },
+            {
+                ...fields,
+                timestamp: serverTimestamp(),
+                readOnly: false,
+                plan: [],
+            },
         );
         await setDoc(result, { id: result.id }, { merge: true });
     } catch (e) {
@@ -111,6 +116,31 @@ async function getMessagesByChat(userId: string, chatId: string) {
     return { result, error };
 }
 
+async function getMistakes(userId: string, chatId: string) {
+    let result: any[] = [];
+    let error = undefined;
+    try {
+        const q = query(
+            collection(
+                firebaseDB,
+                "users",
+                userId,
+                "chats",
+                chatId,
+                "messages",
+            ),
+            where("evaluation.correct", "==", false),
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            result.push(doc.data());
+        });
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
 type AddMessageFields = {
     user: string;
     bot: string;
@@ -145,6 +175,20 @@ async function addMessage(
     return { result, error };
 }
 
+async function updateStudyPlan(userId: string, chatId: string, plan: Plan) {
+    let result = undefined;
+    let error = undefined;
+    try {
+        result = await updateDoc(
+            doc(firebaseDB, "users", userId, "chats", chatId),
+            { plan },
+        );
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
 async function updateReadOnlyChat(userId: string, chatId: string) {
     let result = undefined;
     let error = undefined;
@@ -165,6 +209,8 @@ export {
     getChatsByUser,
     getReadOnlyChatsByUser,
     getMessagesByChat,
+    getMistakes,
     addMessage,
+    updateStudyPlan,
     updateReadOnlyChat,
 };

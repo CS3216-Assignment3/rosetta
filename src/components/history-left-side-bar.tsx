@@ -1,13 +1,6 @@
-import { useAuth } from "@/lib/auth/context";
-import { getChatsByUser, updateReadOnlyChat } from "@/lib/storage/chat";
-import { Chat } from "@/lib/storage/models";
 import { useStore } from "@/stores/rosetta-store";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 export default function HistoryLeftSideBar() {
-    const { loading, user } = useAuth();
     const chat = useStore((state) => state.chat);
 
     return (

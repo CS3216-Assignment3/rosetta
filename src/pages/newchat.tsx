@@ -23,7 +23,6 @@ export default function NewChatPage() {
             language: elements.language.value,
             proficiency: elements.proficiency.value,
             topic: elements.topic.value,
-            readOnly: false,
         });
         if (error !== undefined || result === undefined) {
             return console.log("error creating chat");

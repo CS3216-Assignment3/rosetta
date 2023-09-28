@@ -1,11 +1,17 @@
 import ChatBubbles from "@/components/chat-bubbles";
 import { useAuth } from "@/lib/auth/context";
-import { getChatById, getMessagesByChat } from "@/lib/storage/chat";
+import {
+    getChatById,
+    getMessagesByChat,
+    getMistakes,
+    updateStudyPlan,
+} from "@/lib/storage/chat";
 import { Chat, Message } from "@/lib/storage/models";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import metadata from "public/languagemetadata.json";
 import { useStore } from "@/stores/rosetta-store";
+import { getUser } from "@/lib/storage/user";
 
 export default function HistoryWindow() {
     const { loading, user } = useAuth();
@@ -14,7 +20,6 @@ export default function HistoryWindow() {
     const setChat = useStore((state) => state.setChat);
     const messages = useStore((state) => state.messages);
     const setMessages = useStore((state) => state.setMessages);
-    const formRef = useRef<HTMLFormElement>(null);
     const [disabled, setDisabled] = useState(false);
 
     useEffect(() => {
@@ -51,6 +56,60 @@ export default function HistoryWindow() {
         })();
     }, [router.query.id, loading, user]);
 
+    const handleCreateStudyPlan = async () => {
+        try {
+            setDisabled(true);
+            if (user === undefined) {
+                throw Error("not signed in");
+            }
+            if (chat === undefined) {
+                throw Error("chat is undefined");
+            }
+            const { result: mistakes, error: getMistakesError } =
+                await getMistakes(user.uid, chat.id);
+            if (getMistakesError !== undefined) {
+                throw getMistakesError;
+            }
+            const { result: userDetails, error: getUserError } = await getUser(
+                user.uid,
+            );
+            if (getUserError !== undefined || userDetails === undefined) {
+                throw getUserError;
+            }
+            const apiResponse = await (
+                await fetch("/api/plan", {
+                    method: "POST",
+                    headers: {
+                        accept: "application/json",
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nativeLanguage: userDetails.nativeLanguage,
+                        language: chat.language,
+                        topic: chat.topic,
+                        proficiency: chat.proficiency,
+                        mistakes,
+                    }),
+                })
+            ).json();
+            const plan = apiResponse.plan;
+            console.log("handleCreatePlan", plan);
+            const { error: addMessageError } = await updateStudyPlan(
+                user.uid,
+                chat.id,
+                plan,
+            );
+            if (addMessageError !== undefined) {
+                throw addMessageError;
+            }
+            setDisabled(false);
+        } catch (e) {
+            setDisabled(false);
+            return console.log("handleCreatePlan", e);
+        }
+        router.reload();
+    };
+
     return (
         <div
             id="chat-window"
@@ -74,6 +133,7 @@ export default function HistoryWindow() {
             <button
                 type="submit"
                 disabled={disabled}
+                onClick={handleCreateStudyPlan}
                 className="py-4 px-8 w-full text-xl font-bold rounded-lg duration-150 ease-in-out hover:text-white shadow-inset bg-rosetta-coral hover:shadow-inset2 hover:bg-rosetta-orange"
             >
                 Create Study Plan
