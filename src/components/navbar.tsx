@@ -50,10 +50,13 @@ function Links() {
                     href="/lobby?section=chats"
                     className="text-lg font-medium"
                 >
-                    Lobby
+                    Chats
                 </Link>
-                <Link href="/chat" className="text-lg font-medium">
-                    Chat
+                <Link
+                    href="/lobby?section=profile"
+                    className="text-lg font-medium"
+                >
+                    Profile
                 </Link>
                 <button onClick={handleLogOut} className="text-lg font-medium">
                     Log Out

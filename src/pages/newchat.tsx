@@ -72,6 +72,7 @@ export default function NewChatPage() {
                         <option value="food">Food</option>
                         <option value="sports">Sports</option>
                         <option value="art">Art</option>
+                        <option value="gaming">Gaming</option>
                     </select>
                 </label>
 

@@ -9,6 +9,7 @@ import {
     updateDoc,
     serverTimestamp,
     orderBy,
+    where,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
 
@@ -47,7 +48,6 @@ async function getChatById(userId: string, chatId: string) {
     }
     return { result, error };
 }
-
 async function getChatsByUser(userId: string) {
     let result: any[] = [];
     let error = undefined;
@@ -55,6 +55,26 @@ async function getChatsByUser(userId: string) {
         const q = query(
             collection(firebaseDB, "users", userId, "chats"),
             orderBy("timestamp", "desc"),
+            where("readOnly", "==", false),
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            result.push(doc.data());
+        });
+    } catch (e) {
+        error = e;
+    }
+    return { result, error };
+}
+
+async function getReadOnlyChatsByUser(userId: string) {
+    let result: any[] = [];
+    let error = undefined;
+    try {
+        const q = query(
+            collection(firebaseDB, "users", userId, "chats"),
+            orderBy("timestamp", "desc"),
+            where("readOnly", "==", true),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -143,6 +163,7 @@ export {
     createChat,
     getChatById,
     getChatsByUser,
+    getReadOnlyChatsByUser,
     getMessagesByChat,
     addMessage,
     updateReadOnlyChat,
