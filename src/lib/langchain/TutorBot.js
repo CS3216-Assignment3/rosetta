@@ -1,11 +1,14 @@
-import { inspect } from "util";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { ChatPromptTemplate } from "langchain/prompts";
+import { ChatPromptTemplate, MessagesPlaceholder } from "langchain/prompts";
+import { ConversationChain } from "langchain/chains";
+import { AIMessage, HumanMessage } from "langchain/schema";
+import { BufferWindowMemory, ChatMessageHistory } from "langchain/memory";
+
 
 const MODEL = "gpt-3.5-turbo";
 const TEMPERATURE = 0.5
 
-const chatModel = new ChatOpenAI({
+const tutorModel = new ChatOpenAI({
     model: MODEL,
     temperature: TEMPERATURE
 });
@@ -29,42 +32,47 @@ const humanTemplate = 'Please evaluate the message that I sent my friend """{tex
 
 const tutorPrompt = ChatPromptTemplate.fromMessages([
     ["system", systemTemplate],
+    new MessagesPlaceholder("history"),
     ["human", humanTemplate],
   ]);
 
-class TutorBot {
-    constructor(chatModel, tutorPrompt) {
-        this.chatModel = chatModel;
-        this.tutorPrompt = tutorPrompt;
-        this.log = []
+export default class TutorBot {
+    constructor(pastMessages) {
+        this.tutorMemory =  new BufferWindowMemory({
+            k: 5,
+            chatHistory: this.getChatMessageHistory(pastMessages),
+            returnMessages: true, 
+            memoryKey: "history", 
+            inputKey: "text" 
+        });
+        this.tutorChain = new ConversationChain({
+            llm: tutorModel,
+            prompt: tutorPrompt,
+            memory: this.tutorMemory,
+            verbose: true
+        });
     }
 
-    async evaluateMessage(language, nativeLanguage, proficiency, text) {
-        const formattedTutorPrompt = await this.tutorPrompt.formatMessages({
+    getChatMessageHistory(pastMessages) {
+        const hist = []
+        for (let msg in pastMessages) {
+            if (msg.role === "human") {
+                hist.push(new HumanMessage(msg.content))
+            } else if (msg.role === "ai") {
+                hist.push(new AIMessage(msg.content))
+            }
+        }
+        return new ChatMessageHistory(hist)
+    }
+
+    async call(language, nativeLanguage, proficiency, text) {
+        const result = await this.tutorChain.call({
             language,
             nativeLanguage,
             proficiency,
-            text,
-          });
+            text
+        })
 
-        this.log.push(formattedTutorPrompt)
-
-        const chatModelResult = await this.chatModel.predictMessages(formattedTutorPrompt);
-
-        console.log(
-            "tutor response",
-            inspect(chatModelResult, {
-                showHidden: true,
-                depth: null,
-                colors: true,
-            }),
-        );
-
-        this.log.push(chatModelResult)
-
-        return chatModelResult.content;
+        return result;
     }
 }
-
-const rosettaTutorBot = new TutorBot(chatModel, tutorPrompt);
-export default rosettaTutorBot;

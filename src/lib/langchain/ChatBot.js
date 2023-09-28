@@ -1,17 +1,19 @@
-import { inspect } from "util";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { ChatPromptTemplate } from "langchain/prompts";
+import { ChatPromptTemplate, MessagesPlaceholder } from "langchain/prompts";
+import { ConversationChain } from "langchain/chains";
+import { AIMessage, HumanMessage } from "langchain/schema";
+import { BufferMemory, ChatMessageHistory } from "langchain/memory";
 
 const MODEL = "gpt-3.5-turbo";
 const TEMPERATURE = 0.7
 
 const chatModel = new ChatOpenAI({
     model: MODEL,
-    temperature: TEMPERATURE
+    temperature: TEMPERATURE,
 });
 
 const systemTemplate = `
-Act as a friendly and engaging friend that is interested in {topic}.
+You are a friendly and engaging friend that is interested in {topic}.
 Respond as if you are conversing with a friend that is at a {proficiency} level for {language}.
 
 Things to take note of while chatting with your friend:
@@ -22,42 +24,45 @@ const humanTemplate = "{text}"
 
 const chatPrompt = ChatPromptTemplate.fromMessages([
     ["system", systemTemplate],
+    new MessagesPlaceholder("history"),
     ["human", humanTemplate],
   ]);
 
-class ChatBot {
-    constructor(chatModel, chatPrompt) {
-        this.chatModel = chatModel;
-        this.chatPrompt = chatPrompt;
-        this.messages = [];
+export default class ChatBot {
+    constructor(pastMessages) {
+        this.chatMemory =  new BufferMemory({ 
+            chatHistory: this.getChatMessageHistory(pastMessages),
+            returnMessages: true, 
+            memoryKey: "history", 
+            inputKey: "text" 
+        });
+        this.chatChain = new ConversationChain({
+            llm: chatModel,
+            prompt: chatPrompt,
+            memory: this.chatMemory,
+            verbose: true
+        });
     }
 
-    async sendMessage(topic, proficiency, language, text) {
-        const formattedChatPrompt = await this.chatPrompt.formatMessages({
+    getChatMessageHistory(pastMessages) {
+        const hist = []
+        for (let msg in pastMessages) {
+            if (msg.role === "human") {
+                hist.push(new HumanMessage(msg.content))
+            } else if (msg.role === "ai") {
+                hist.push(new AIMessage(msg.content))
+            }
+        }
+        return new ChatMessageHistory(hist)
+    }
+
+    async call(topic, proficiency, language, text) {
+        const result = await this.chatChain.call({
             topic,
             proficiency,
             language,
             text,
-          });
-
-        this.messages.push(formattedChatPrompt);
-
-        const chatModelResult = await this.chatModel.predictMessages(formattedChatPrompt);
-
-        console.log(
-            "chat response",
-            inspect(chatModelResult, {
-                showHidden: true,
-                depth: null,
-                colors: true,
-            }),
-        );
-
-        this.messages.push(chatModelResult);
-
-        return chatModelResult.content;
+        })
+        return result;
     }
 }
-
-const rosettaChatBot = new ChatBot(chatModel, chatPrompt);
-export default rosettaChatBot;
