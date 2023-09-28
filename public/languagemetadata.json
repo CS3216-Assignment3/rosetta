@@ -1,0 +1,17 @@
+{
+    "german": {
+        "country": "Germany",
+        "person": "German",
+        "greeting": "Hallo! Wie geht es dir?"
+    },
+    "english": {
+        "country": "USA",
+        "person": "English",
+        "greeting": "Hello! How are you doing?"
+    },
+    "spanish": {
+        "country": "Spain",
+        "person": "Spanish",
+        "greeting": "¡Hola! ¿Cómo estás?"
+    }
+}

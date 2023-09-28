@@ -1,9 +1,12 @@
+import { FieldValue } from "firebase/firestore";
+
 type User = {
     nativeLanguage: string;
 };
 
 type Chat = {
     id: string;
+    timestamp: FieldValue;
     botName: string;
     language: string;
     topic: string;
@@ -11,16 +14,14 @@ type Chat = {
     readOnly: boolean;
 };
 
-type UserMessage = {
-    body: string;
+type Message = {
+    timestamp: FieldValue;
+    user: string;
+    bot: string;
     evaluation: {
-        mistake: boolean;
+        correct: boolean;
         content: string;
     };
 };
 
-type BotMessage = {
-    body: string;
-};
-
-export type { User, Chat, UserMessage, BotMessage };
+export type { User, Chat, Message };

@@ -7,9 +7,10 @@ import {
     addDoc,
     setDoc,
     updateDoc,
+    serverTimestamp,
+    orderBy,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
-import type { UserMessage, BotMessage } from "./models";
 
 type CreateChatFields = {
     botName: string;
@@ -25,7 +26,7 @@ async function createChat(userId: string, fields: CreateChatFields) {
     try {
         result = await addDoc(
             collection(firebaseDB, "users", userId, "chats"),
-            fields,
+            { ...fields, timestamp: serverTimestamp() },
         );
         await setDoc(result, { id: result.id }, { merge: true });
     } catch (e) {
@@ -51,7 +52,10 @@ async function getChatsByUser(userId: string) {
     let result: any[] = [];
     let error = undefined;
     try {
-        const q = query(collection(firebaseDB, "users", userId, "chats"));
+        const q = query(
+            collection(firebaseDB, "users", userId, "chats"),
+            orderBy("timestamp", "desc"),
+        );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             result.push(doc.data());
@@ -62,15 +66,11 @@ async function getChatsByUser(userId: string) {
     return { result, error };
 }
 
-async function addUserMessage(
-    userId: string,
-    chatId: string,
-    message: UserMessage,
-) {
-    let result = undefined;
+async function getMessagesByChat(userId: string, chatId: string) {
+    let result: any[] = [];
     let error = undefined;
     try {
-        result = await addDoc(
+        const q = query(
             collection(
                 firebaseDB,
                 "users",
@@ -79,18 +79,31 @@ async function addUserMessage(
                 chatId,
                 "messages",
             ),
-            message,
+            orderBy("timestamp", "desc"),
         );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            result.push(doc.data());
+        });
     } catch (e) {
         error = e;
     }
     return { result, error };
 }
 
-async function addBotMessage(
+type AddMessageFields = {
+    user: string;
+    bot: string;
+    evaluation: {
+        mistake: boolean;
+        content: string;
+    };
+};
+
+async function addMessage(
     userId: string,
     chatId: string,
-    message: BotMessage,
+    fields: AddMessageFields,
 ) {
     let result = undefined;
     let error = undefined;
@@ -104,7 +117,7 @@ async function addBotMessage(
                 chatId,
                 "messages",
             ),
-            message,
+            { ...fields, timestamp: serverTimestamp() },
         );
     } catch (e) {
         error = e;
@@ -130,7 +143,7 @@ export {
     createChat,
     getChatById,
     getChatsByUser,
-    addUserMessage,
-    addBotMessage,
+    getMessagesByChat,
+    addMessage,
     updateReadOnlyChat,
 };

@@ -19,7 +19,7 @@ export default function NewChatPage() {
             return console.log("not signed in");
         }
         const { result, error } = await createChat(user.uid, {
-            botName: "Bob",
+            botName: "Bob", // TODO: dynamic names
             language: elements.language.value,
             proficiency: elements.proficiency.value,
             topic: elements.topic.value,
@@ -47,7 +47,7 @@ export default function NewChatPage() {
                     >
                         <option value="english">English</option>
                         <option value="german">German</option>
-                        <option value="italian">Italian</option>
+                        <option value="spanish">Spanish</option>
                     </select>
                 </label>
 
