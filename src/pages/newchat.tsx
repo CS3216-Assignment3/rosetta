@@ -47,7 +47,7 @@ export default function NewChatPage() {
                     >
                         <option value="english">English</option>
                         <option value="german">German</option>
-                        <option value="italian">Italian</option>
+                        <option value="spanish">Spanish</option>
                     </select>
                 </label>
 
