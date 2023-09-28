@@ -79,7 +79,7 @@ async function getMessagesByChat(userId: string, chatId: string) {
                 chatId,
                 "messages",
             ),
-            orderBy("timestamp"),
+            orderBy("timestamp", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
