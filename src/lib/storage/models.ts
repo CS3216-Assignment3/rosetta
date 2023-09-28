@@ -1,9 +1,12 @@
+import { FieldValue } from "firebase/firestore";
+
 type User = {
     nativeLanguage: string;
 };
 
 type Chat = {
     id: string;
+    timestamp: FieldValue;
     botName: string;
     language: string;
     topic: string;
@@ -12,6 +15,7 @@ type Chat = {
 };
 
 type Message = {
+    timestamp: FieldValue;
     user: string;
     bot: string;
     evaluation: {

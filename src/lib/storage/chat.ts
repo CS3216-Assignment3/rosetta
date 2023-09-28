@@ -7,9 +7,10 @@ import {
     addDoc,
     setDoc,
     updateDoc,
+    serverTimestamp,
+    orderBy,
 } from "firebase/firestore";
 import { firebaseDB } from "@/lib/firebase/config";
-import type { Message } from "./models";
 
 type CreateChatFields = {
     botName: string;
@@ -25,7 +26,7 @@ async function createChat(userId: string, fields: CreateChatFields) {
     try {
         result = await addDoc(
             collection(firebaseDB, "users", userId, "chats"),
-            fields,
+            { ...fields, timestamp: serverTimestamp() },
         );
         await setDoc(result, { id: result.id }, { merge: true });
     } catch (e) {
@@ -51,7 +52,10 @@ async function getChatsByUser(userId: string) {
     let result: any[] = [];
     let error = undefined;
     try {
-        const q = query(collection(firebaseDB, "users", userId, "chats"));
+        const q = query(
+            collection(firebaseDB, "users", userId, "chats"),
+            orderBy("timestamp", "desc"),
+        );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             result.push(doc.data());
@@ -75,6 +79,7 @@ async function getMessagesByChat(userId: string, chatId: string) {
                 chatId,
                 "messages",
             ),
+            orderBy("timestamp"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -86,7 +91,20 @@ async function getMessagesByChat(userId: string, chatId: string) {
     return { result, error };
 }
 
-async function addMessage(userId: string, chatId: string, message: Message) {
+type AddMessageFields = {
+    user: string;
+    bot: string;
+    evaluation: {
+        mistake: boolean;
+        content: string;
+    };
+};
+
+async function addMessage(
+    userId: string,
+    chatId: string,
+    fields: AddMessageFields,
+) {
     let result = undefined;
     let error = undefined;
     try {
@@ -99,7 +117,7 @@ async function addMessage(userId: string, chatId: string, message: Message) {
                 chatId,
                 "messages",
             ),
-            message,
+            { ...fields, timestamp: serverTimestamp() },
         );
     } catch (e) {
         error = e;

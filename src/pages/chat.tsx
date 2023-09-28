@@ -1,14 +1,16 @@
+import ChatBubbles from "@/components/chat-bubbles";
 import { useAuth } from "@/lib/auth/context";
 import { addMessage, getChatById, getMessagesByChat } from "@/lib/storage/chat";
 import { Chat, Message } from "@/lib/storage/models";
+import { useChatStore } from "@/stores/chat-store";
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
+import metadata from "public/languagemetadata.json";
 
 export default function ChatPage() {
     const { loading, user } = useAuth();
     const router = useRouter();
-    const [chat, setChat] = useState<Chat>();
-    const [messages, setMessages] = useState<Message[]>([]);
+    const { chat, setChat, messages, setMessages } = useChatStore();
 
     useEffect(() => {
         (async () => {
@@ -25,7 +27,7 @@ export default function ChatPage() {
                     return console.log("error getting chat", chatError);
                 }
                 setChat(chatResult as Chat);
-                console.log(chatResult);
+                console.log("useEffect", chatResult);
 
                 const { result: messagesResult, error: messagesError } =
                     await getMessagesByChat(user.uid, chatId);
@@ -33,52 +35,52 @@ export default function ChatPage() {
                     return console.log("error getting messages", messagesError);
                 }
                 setMessages(messagesResult as Message[]);
-                console.log(messagesResult);
+                console.log("useEffect", messagesResult);
             }
         })();
     }, [router.query.id, loading, user]);
 
     const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (user === undefined) {
-            return console.log("not signed in");
+        try {
+            e.preventDefault();
+            if (user === undefined) {
+                return console.log("not signed in");
+            }
+            if (chat === undefined) {
+                return console.log("chat is undefined");
+            }
+            const input = (
+                e.currentTarget.elements.namedItem("input") as HTMLInputElement
+            ).value as string;
+            if (input === "") {
+                return console.log("empty input");
+            }
+            const apiResponse = await (
+                await fetch("/api/chat", {
+                    method: "POST",
+                    headers: {
+                        accept: "application/json",
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        language: chat.language,
+                        topic: chat.topic,
+                        proficiency: chat.proficiency,
+                        history: messages,
+                        input,
+                    }),
+                })
+            ).json();
+            const newMessage = apiResponse.message;
+            console.log("handleSendMessage", newMessage);
+            const { error } = await addMessage(user.uid, chat.id, newMessage);
+            if (error !== undefined) {
+                return console.log("error adding message", error);
+            }
+            setMessages([...messages, newMessage]);
+        } catch (e) {
+            return console.log(e);
         }
-        if (chat === undefined) {
-            return console.log("error getting chat");
-        }
-        const input = (
-            e.currentTarget.elements.namedItem("input") as HTMLInputElement
-        ).value as string;
-        if (input === "") {
-            return console.log("empty input");
-        }
-        const newMessage = await (
-            await fetch("/api/chat", {
-                method: "POST",
-                headers: {
-                    accept: "application/json",
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    language: chat.language,
-                    topic: chat.topic,
-                    proficiency: chat.proficiency,
-                    history: messages,
-                    input,
-                }),
-            })
-        ).json();
-        console.log("new message", newMessage);
-        const { result, error } = await addMessage(
-            user.uid,
-            chat.id,
-            newMessage,
-        );
-        if (error !== undefined) {
-            return console.log("error adding message", error);
-        }
-        console.log(result);
-        e.currentTarget.reset();
     };
 
     return (
@@ -92,38 +94,17 @@ export default function ChatPage() {
                     className="flex overflow-y-auto flex-col gap-4 w-full h-full no-scrollbar"
                 >
                     <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
+                        {chat !== undefined
+                            ? metadata[chat.language].greeting
+                            : ""}
                     </p>
-                    <p className="flex flex-col py-2 px-4 bg-rosetta-sienna text-white rounded-lg  rounded-br-none shadow max-w-[70%] self-end">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-rosetta-purple text-white rounded-lg  rounded-br-none shadow max-w-[70%] self-end">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-rosetta-purple text-white rounded-lg  rounded-br-none shadow max-w-[70%] self-end">
-                        Lorem ipsum dolor sit amet, qui minim labore adipisicing
-                        minim sint cillum sint consectetur cupidatat.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                        hello?
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-rosetta-purple text-white rounded-lg  rounded-br-none shadow max-w-[70%] self-end">
-                        hello world.
-                    </p>
-                    <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                        hello?
-                    </p>
+                    {messages.map((message, idx) => (
+                        <ChatBubbles
+                            key={idx}
+                            botBody={message.bot}
+                            userBody={message.user}
+                        />
+                    ))}
                 </div>
                 <form
                     onSubmit={handleSendMessage}

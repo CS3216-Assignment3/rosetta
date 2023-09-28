@@ -22,23 +22,27 @@ const HUMAN_TEMPLATE = "{input}";
 const MEMORY_KEY = "history";
 
 function makeChatChain(language: string, messages: Message[]) {
+    console.log("prompt");
     const prompt = ChatPromptTemplate.fromMessages([
         SystemMessagePromptTemplate.fromTemplate(SYSTEM_TEMPLATE),
         new MessagesPlaceholder(MEMORY_KEY),
         HumanMessagePromptTemplate.fromTemplate(HUMAN_TEMPLATE),
     ]);
 
+    console.log("base messages");
     const baseMessages: BaseMessage[] = messages.reduce(
-        (accum: BaseMessage[], curr) => {
-            accum.push(new HumanMessage(curr.user));
-            accum.push(new AIMessage(curr.bot));
+        (accum: BaseMessage[], msg) => {
+            accum.push(new HumanMessage(msg.user));
+            accum.push(new AIMessage(msg.bot));
             return accum;
         },
         [new AIMessage(metadata[language].greeting)],
     );
 
+    console.log("history");
     const history = new ChatMessageHistory(baseMessages);
 
+    console.log("memory");
     const memory = new BufferMemory({
         memoryKey: MEMORY_KEY,
         returnMessages: true,
@@ -46,10 +50,12 @@ function makeChatChain(language: string, messages: Message[]) {
         inputKey: "input",
     });
 
+    console.log("llm");
     const llm = new ChatOpenAI({
         temperature: 0.7,
     });
 
+    console.log("chain");
     return new ConversationChain({ llm, prompt, memory, verbose: true });
 }
 
