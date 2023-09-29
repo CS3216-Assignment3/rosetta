@@ -108,7 +108,7 @@ export default function ChatWindow() {
             if (addMessageError !== undefined) {
                 throw addMessageError;
             }
-            setMessages([newMessage, ...messages]);
+            setMessages([...messages, newMessage]);
             formRef.current?.reset();
             setDisabled(false);
         } catch (e) {
@@ -126,7 +126,7 @@ export default function ChatWindow() {
                 id="chat-messages"
                 className="flex overflow-y-auto flex-col-reverse gap-4 w-full h-full no-scrollbar"
             >
-                {messages.map((message, idx) => (
+                {messages.toReversed().map((message, idx) => (
                     <ChatBubbles
                         key={idx}
                         botBody={message.bot}
