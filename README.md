@@ -7,6 +7,9 @@
 Revolutionizing language learning by leveraging on Generative AI to bring you dynamic conversation and instant personalised feedback
 </p>
 
+## Application URL
+[Rosetta](https://rosetta-gamma.vercel.app/)
+
 ## Running locally
 You will need to use environment variables defined in `.env.example` to run Rosetta locally. Put the `.env` in the root directory, then run the following commands:
 ```bash
