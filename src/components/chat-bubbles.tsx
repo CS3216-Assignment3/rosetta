@@ -24,7 +24,7 @@ export default function ChatBubbles({
             <HoverCard>
                 <HoverCardTrigger className="flex gap-1 py-2 px-4 bg-rosetta-navy text-white rounded-lg rounded-br-none shadow max-w-[70%] self-end">
                     <p>{userBody}</p>
-                    <div>
+                    <div className={`${correct ? "" : "text-rosetta-orange"}`}>
                         <InfoIcon />
                     </div>
                 </HoverCardTrigger>
