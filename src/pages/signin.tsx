@@ -1,26 +1,46 @@
 import GoogleIcon from "@/components/ui/google-icon";
+import { useToast } from "@/components/ui/use-toast";
 import { signIn, signInWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function SignInPage() {
+    const { toast } = useToast();
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSignIn = async (e: any) => {
         e.preventDefault();
+        if (email === "" || password === "") {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Empty Fields",
+            });
+            return console.log("empty fields");
+        }
         const { result, error } = await signIn(email, password);
         if (error) {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Something went wrong...",
+            });
             return console.log(error);
         }
         console.log(result);
-        router.push("/lobby");
+        router.push("/lobby?section=profile");
     };
 
     const handleSignInWithGoogle = async () => {
         const { result, error } = await signInWithGoogle();
         if (error) {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Looks like you are new! Please sign up.",
+            });
             return console.log(error);
         }
         console.log(result);
