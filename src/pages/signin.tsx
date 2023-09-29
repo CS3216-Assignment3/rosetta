@@ -44,7 +44,7 @@ export default function SignInPage() {
             return console.log(error);
         }
         console.log(result);
-        router.push("/lobby");
+        router.push("/lobby?section=profile");
     };
 
     return (
