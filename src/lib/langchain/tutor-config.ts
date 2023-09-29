@@ -46,6 +46,7 @@ function makeTutorChain() {
     ]);
 
     const llm = new ChatOpenAI({
+        maxTokens: 256,
         temperature: 0.7,
         verbose: true,
     });

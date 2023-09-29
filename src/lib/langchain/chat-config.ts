@@ -14,7 +14,7 @@ import { Message } from "../storage/models";
 const SYSTEM_TEMPLATE = `
 You are a friendly and engaging friend from {country} that is interested in {topic}.
 I am your friend, and I am having a conversation with you.
-I speak {language} at that is a {proficiency} level, so respond appropriately.
+I speak {language} at a {proficiency} level, so respond appropriately.
 You must only respond in {language}.
 `;
 
@@ -48,7 +48,9 @@ function makeChatChain(language: string, messages: Message[]) {
     });
 
     const llm = new ChatOpenAI({
+        maxTokens: 256,
         temperature: 0.7,
+        frequencyPenalty: 0.5,
     });
 
     return new ConversationChain({ llm, prompt, memory, verbose: true });
