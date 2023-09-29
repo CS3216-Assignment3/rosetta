@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function HomeFeaturesSection() {
     return (
-        <section className="flex flex-col gap-12 items-center pt-12 w-full min-h-screen bg-gradient-to-t to-white snap-start from-blaze-orange-200">
+        <section className="flex flex-col gap-12 items-center pt-12 w-full min-h-screen snap-start">
             <p className="text-5xl font-bold text-center">Features</p>
-            <div className="flex justify-between items-start w-1/2">
+            <div className="flex gap-4 items-start w-1/2">
                 <div className="w-1/3">
                     <p className="text-2xl font-bold">AI Chat Partner</p>
                     <p className="text-lg">
@@ -16,17 +16,17 @@ export default function HomeFeaturesSection() {
                 <Image
                     src="/chatpartner.jpg"
                     alt="ai chat partner"
-                    width={300}
-                    height={300}
+                    width={450}
+                    height={450}
                     className="rounded-lg shadow"
                 />
             </div>
-            <div className="flex justify-between items-start w-1/2">
+            <div className="flex gap-4 items-start w-1/2">
                 <Image
                     src="/feedback.jpg"
                     alt="ai chat partner"
-                    width={300}
-                    height={300}
+                    width={450}
+                    height={450}
                     className="rounded-lg shadow"
                 />
                 <div className="w-1/3">
@@ -38,7 +38,7 @@ export default function HomeFeaturesSection() {
                     </p>
                 </div>
             </div>
-            <div className="flex justify-between items-start w-1/2">
+            <div className="flex gap-4 items-start w-1/2">
                 <div className="w-1/3">
                     <p className="text-2xl font-bold">Track Your Learning</p>
                     <p className="text-lg">
@@ -51,8 +51,8 @@ export default function HomeFeaturesSection() {
                 <Image
                     src="/studyplan.jpg"
                     alt="ai chat partner"
-                    width={300}
-                    height={300}
+                    width={450}
+                    height={450}
                     className="rounded-lg shadow"
                 />
             </div>

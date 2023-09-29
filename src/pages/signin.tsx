@@ -50,7 +50,7 @@ export default function SignInPage() {
     return (
         <div className="flex flex-col gap-8 items-center pt-12 h-full">
             <h1 className="text-3xl font-bold">
-                Sign in to <span className="text-rosetta-sienna">Rosetta</span>.
+                Sign in to <span className="text-rosetta-orange">Rosetta</span>.
             </h1>
 
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">

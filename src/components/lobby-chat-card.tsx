@@ -1,19 +1,23 @@
 import { Chat } from "@/lib/storage/models";
 import Link from "next/link";
 
-export default function LobbyChatCard({ chat }: { chat: Chat }) {
+export default function LobbyChatCard({
+    chat,
+    url,
+}: {
+    chat: Chat;
+    url: string;
+}) {
     return (
-        <Link href={`/chat?id=${chat.id}`}>
-            <div className="flex flex-col gap-2 p-4 w-max rounded-lg border-2 border-gray-200 shadow duration-150 ease-in-out h-max hover:border-rosetta-orange">
-                <div className="bg-gray-500 rounded-lg w-[200px] h-[200px]"></div>
+        <Link href={`/${url}?id=${chat.id}`}>
+            <div className="flex gap-2 p-4 w-max bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset h-max hover:shadow-inset2 hover:bg-rosetta-orange">
                 <div>
                     <p className="text-lg font-bold capitalize">
                         {chat.botName}
                     </p>
                     <p className="capitalize">
-                        {chat.language} ({chat.proficiency})
+                        {chat.language} ({chat.proficiency}) | {chat.topic}
                     </p>
-                    <p className="capitalize">{chat.topic}</p>
                 </div>
             </div>
         </Link>

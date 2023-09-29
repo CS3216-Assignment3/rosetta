@@ -5,10 +5,8 @@ export default function HistoryRightSideBar() {
 
     return (
         <div className="flex flex-col items-center pt-12 w-1/3 h-full">
-            <div className="flex flex-col gap-4 items-center w-3/4">
-                <h1 className="py-2 px-4 w-full text-xl font-bold rounded-lg bg-rosetta-coral">
-                    Study Plan
-                </h1>
+            <div className="flex flex-col gap-4 items-center p-4 w-3/4 bg-gray-200 rounded-lg shadow">
+                <h1 className="w-full text-xl font-bold">Study Plan</h1>
                 {chat?.plan.length !== 0 ? (
                     <ul className="w-full">
                         {chat?.plan.map((e, idx) => (

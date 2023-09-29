@@ -51,7 +51,7 @@ export default function OnboardingPage() {
         <div className="flex flex-col gap-8 items-center pt-12 w-full h-full">
             <h1 className="text-3xl font-bold">
                 {`Let's get to know `}
-                <span className="text-rosetta-sienna">you better</span>!
+                <span className="text-rosetta-orange">you better</span>!
             </h1>
 
             <form

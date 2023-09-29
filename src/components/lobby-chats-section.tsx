@@ -33,11 +33,15 @@ export default function LobbyChatsSection() {
             >
                 New Chat
             </Link>
-            <div className="flex flex-wrap gap-4 w-full h-full">
-                {chats?.map((chat) => (
-                    <LobbyChatCard chat={chat} key={chat.id} />
-                ))}
-            </div>
+            {chats?.length !== 0 ? (
+                <div className="flex flex-wrap gap-4 w-full h-full">
+                    {chats?.map((chat) => (
+                        <LobbyChatCard chat={chat} url="chat" key={chat.id} />
+                    ))}
+                </div>
+            ) : (
+                <p>No chats</p>
+            )}
         </div>
     );
 }

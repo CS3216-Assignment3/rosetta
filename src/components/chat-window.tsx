@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useStore } from "@/stores/rosetta-store";
 import { getUser } from "@/lib/storage/user";
-import SendIcon from "./ui/send-icon";
+import RosettaCommaIcon from "./ui/rosetta-comma-icon";
 
 export default function ChatWindow() {
     const { loading, user } = useAuth();
@@ -135,7 +135,7 @@ export default function ChatWindow() {
                         evaluation={message.evaluation.content}
                     />
                 ))}
-                <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
+                <p className="py-2 px-4 rounded-lg rounded-bl-none bg-gray-200 max-w-[70%]">
                     {greeting}
                 </p>
             </div>
@@ -154,9 +154,9 @@ export default function ChatWindow() {
                 <button
                     type="submit"
                     disabled={disabled}
-                    className="flex items-center p-2 text-white rounded-full bg-rosetta-sienna"
+                    className="flex items-center p-2 rounded-full duration-150 ease-in-out text-rosetta-orange bg-rosetta-navy"
                 >
-                    <SendIcon />
+                    <RosettaCommaIcon />
                 </button>
             </form>
         </div>
