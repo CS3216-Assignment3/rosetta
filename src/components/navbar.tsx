@@ -53,6 +53,12 @@ function Links() {
                     Chats
                 </Link>
                 <Link
+                    href="/lobby?section=history"
+                    className="text-lg font-medium"
+                >
+                    History
+                </Link>
+                <Link
                     href="/lobby?section=profile"
                     className="text-lg font-medium"
                 >

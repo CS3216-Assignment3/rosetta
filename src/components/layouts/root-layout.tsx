@@ -1,6 +1,7 @@
 import NavBar from "@/components/navbar";
 import { Baloo_2 } from "next/font/google";
 import { ReactNode } from "react";
+import { Toaster } from "../ui/toaster";
 
 const baloo = Baloo_2({
     subsets: ["latin"],
@@ -9,11 +10,14 @@ const baloo = Baloo_2({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <main
-            className={`${baloo.variable} font-baloo bg-white text-rosetta-jet w-screen h-screen flex flex-col`}
-        >
-            <NavBar />
-            {children}
-        </main>
+        <>
+            <main
+                className={`${baloo.variable} font-baloo bg-white text-rosetta-jet w-screen h-screen flex flex-col`}
+            >
+                <NavBar />
+                {children}
+            </main>
+            <Toaster />
+        </>
     );
 }

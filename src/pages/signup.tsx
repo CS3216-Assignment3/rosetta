@@ -1,8 +1,11 @@
+import GoogleIcon from "@/components/ui/google-icon";
+import { useToast } from "@/components/ui/use-toast";
 import { signUp, signUpWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function SignUpPage() {
+    const { toast } = useToast();
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -10,11 +13,29 @@ export default function SignUpPage() {
 
     const handleSignUp = async (e: any) => {
         e.preventDefault();
+        if (email === "" || password === "" || repassword === "") {
+            toast({
+                title: "Error Signing Up",
+                description: "Empty Fields",
+                duration: 2000,
+            });
+            return console.log("empty fields");
+        }
         if (password !== repassword) {
+            toast({
+                title: "Error Signing Up",
+                description: "Passwords do not match",
+                duration: 2000,
+            });
             return console.log("password not the same");
         }
         const { result, error } = await signUp(email, password);
         if (error) {
+            toast({
+                title: "Error Signing Up",
+                description: "Something went wrong...",
+                duration: 2000,
+            });
             return console.log(error);
         }
         console.log(result);
@@ -24,6 +45,11 @@ export default function SignUpPage() {
     const handleSignUpWithGoogle = async () => {
         const { result, error } = await signUpWithGoogle();
         if (error) {
+            toast({
+                title: "Error Signing Up",
+                description: "Something went wrong...",
+                duration: 2000,
+            });
             return console.log(error);
         }
         console.log(result);
@@ -39,8 +65,9 @@ export default function SignUpPage() {
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">
                 <button
                     onClick={handleSignUpWithGoogle}
-                    className="flex justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow"
+                    className="flex gap-2 justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow"
                 >
+                    <GoogleIcon />
                     Connect with Google
                 </button>
 

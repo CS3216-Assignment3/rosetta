@@ -4,9 +4,9 @@ import { addMessage, getChatById, getMessagesByChat } from "@/lib/storage/chat";
 import { Chat, Message } from "@/lib/storage/models";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import metadata from "public/languagemetadata.json";
 import { useStore } from "@/stores/rosetta-store";
 import { getUser } from "@/lib/storage/user";
+import SendIcon from "./ui/send-icon";
 
 export default function ChatWindow() {
     const { loading, user } = useAuth();
@@ -17,6 +17,7 @@ export default function ChatWindow() {
     const setMessages = useStore((state) => state.setMessages);
     const formRef = useRef<HTMLFormElement>(null);
     const [disabled, setDisabled] = useState(false);
+    const [greeting, setGreeting] = useState("");
 
     useEffect(() => {
         (async () => {
@@ -48,6 +49,14 @@ export default function ChatWindow() {
                 }
                 setMessages(messagesResult as Message[]);
                 console.log("chatwindow-useEffect", messagesResult);
+
+                const metadata = await (
+                    await fetch(
+                        `/api/metadata?language=${chatResult?.language}`,
+                    )
+                ).json();
+                console.log("metadata", metadata);
+                setGreeting(metadata.greeting);
             }
         })();
     }, [router.query.id, loading, user]);
@@ -122,10 +131,12 @@ export default function ChatWindow() {
                         key={idx}
                         botBody={message.bot}
                         userBody={message.user}
+                        correct={message.evaluation.correct}
+                        evaluation={message.evaluation.content}
                     />
                 ))}
                 <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
-                    {chat !== undefined ? metadata[chat.language].greeting : ""}
+                    {greeting}
                 </p>
             </div>
             <form
@@ -143,8 +154,10 @@ export default function ChatWindow() {
                 <button
                     type="submit"
                     disabled={disabled}
-                    className="rounded-full w-[30px] h-[30px] bg-rosetta-sienna"
-                ></button>
+                    className="flex items-center p-2 text-white rounded-full bg-rosetta-sienna"
+                >
+                    <SendIcon />
+                </button>
             </form>
         </div>
     );
