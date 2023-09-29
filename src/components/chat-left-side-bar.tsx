@@ -67,7 +67,7 @@ export default function ChatLeftSideBar() {
                     All Chats
                 </h1>
                 {displayedChats.map((chat, idx) => (
-                    <Link href={`/chat?id=${chat.id}`}>
+                    <Link href={`/chat?id=${chat.id}`} key={idx}>
                         <div
                             key={idx}
                             className="py-2 px-4 w-full rounded-lg border-2 border-gray-200 shadow hover:border-rosetta-sienna"
