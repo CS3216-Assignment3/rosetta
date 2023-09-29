@@ -127,7 +127,7 @@ export default function HistoryWindow() {
                 id="chat-messages"
                 className="flex overflow-y-auto flex-col-reverse gap-4 w-full h-full no-scrollbar"
             >
-                {messages.map((message, idx) => (
+                {messages.toReversed().map((message, idx) => (
                     <ChatBubbles
                         key={idx}
                         botBody={message.bot}
