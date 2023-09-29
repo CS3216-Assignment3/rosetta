@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <>
             <main
-                className={`${baloo.variable} font-baloo bg-white text-rosetta-jet w-screen h-screen flex flex-col`}
+                className={`${baloo.variable} font-baloo bg-white text-rosetta-navy w-screen h-screen flex flex-col`}
             >
                 <NavBar />
                 {children}

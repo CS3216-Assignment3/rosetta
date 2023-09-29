@@ -55,7 +55,7 @@ export default function ChatLeftSideBar() {
                     </div>
                     <button
                         onClick={handleEndChat}
-                        className="py-2 px-4 w-max font-bold bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white h-max shadow-inset hover:bg-blaze-orange-600"
+                        className="py-2 px-4 w-max font-bold bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white h-max shadow-inset hover:bg-rosetta-orange"
                     >
                         End Chat
                     </button>

@@ -19,7 +19,6 @@ export default function NewChatPage() {
             return console.log("not signed in");
         }
         const { result, error } = await createChat(user.uid, {
-            botName: "Bob", // TODO: dynamic names
             language: elements.language.value,
             proficiency: elements.proficiency.value,
             topic: elements.topic.value,
@@ -78,7 +77,7 @@ export default function NewChatPage() {
 
                 <button
                     type="submit"
-                    className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
+                    className="py-4 px-8 w-full text-xl font-bold text-center bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                 >
                     Start Chatting
                 </button>
