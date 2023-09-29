@@ -124,6 +124,8 @@ export default function HistoryWindow() {
                         key={idx}
                         botBody={message.bot}
                         userBody={message.user}
+                        correct={message.evaluation.correct}
+                        evaluation={message.evaluation.content}
                     />
                 ))}
                 <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
