@@ -59,7 +59,7 @@ export default function SignUpPage() {
     return (
         <div className="flex flex-col gap-8 items-center pt-12 h-full">
             <h1 className="text-3xl font-bold">
-                Sign up to <span className="text-rosetta-sienna">Rosetta</span>.
+                Sign up to <span className="text-rosetta-orange">Rosetta</span>.
             </h1>
 
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">
@@ -110,7 +110,7 @@ export default function SignUpPage() {
 
                     <button
                         type="submit"
-                        className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
+                        className="py-4 px-8 w-full text-xl font-bold text-center bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                     >
                         Sign Up
                     </button>

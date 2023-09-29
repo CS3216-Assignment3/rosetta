@@ -1,36 +1,56 @@
 import GoogleIcon from "@/components/ui/google-icon";
+import { useToast } from "@/components/ui/use-toast";
 import { signIn, signInWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function SignInPage() {
+    const { toast } = useToast();
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSignIn = async (e: any) => {
         e.preventDefault();
+        if (email === "" || password === "") {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Empty Fields",
+            });
+            return console.log("empty fields");
+        }
         const { result, error } = await signIn(email, password);
         if (error) {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Something went wrong...",
+            });
             return console.log(error);
         }
         console.log(result);
-        router.push("/lobby");
+        router.push("/lobby?section=profile");
     };
 
     const handleSignInWithGoogle = async () => {
         const { result, error } = await signInWithGoogle();
         if (error) {
+            toast({
+                variant: "destructive",
+                title: "Error Signing In",
+                description: "Looks like you are new! Please sign up.",
+            });
             return console.log(error);
         }
         console.log(result);
-        router.push("/lobby");
+        router.push("/lobby?section=profile");
     };
 
     return (
         <div className="flex flex-col gap-8 items-center pt-12 h-full">
             <h1 className="text-3xl font-bold">
-                Sign in to <span className="text-rosetta-sienna">Rosetta</span>.
+                Sign in to <span className="text-rosetta-orange">Rosetta</span>.
             </h1>
 
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">
@@ -72,7 +92,7 @@ export default function SignInPage() {
 
                     <button
                         type="submit"
-                        className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
+                        className="py-4 px-8 w-full text-xl font-bold text-center bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                     >
                         Sign In
                     </button>

@@ -136,7 +136,7 @@ export default function HistoryWindow() {
                         evaluation={message.evaluation.content}
                     />
                 ))}
-                <p className="flex flex-col py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%] self-start">
+                <p className="py-2 px-4 rounded-lg rounded-bl-none bg-gray-200 max-w-[70%]">
                     {greeting}
                 </p>
             </div>
@@ -144,7 +144,7 @@ export default function HistoryWindow() {
                 type="submit"
                 disabled={disabled}
                 onClick={handleCreateStudyPlan}
-                className="py-4 px-8 w-full text-xl font-bold rounded-lg duration-150 ease-in-out hover:text-white shadow-inset bg-rosetta-coral hover:shadow-inset2 hover:bg-rosetta-orange"
+                className="py-4 px-8 w-full text-xl font-bold bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
             >
                 Create Study Plan
             </button>

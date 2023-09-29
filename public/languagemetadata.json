@@ -13,5 +13,10 @@
         "country": "Spain",
         "person": "Spanish",
         "greeting": "¡Hola! ¿Cómo estás?"
+    },
+    "chinese": {
+        "country": "China",
+        "person": "Chinese",
+        "greeting": "你好! 还好吗?"
     }
 }

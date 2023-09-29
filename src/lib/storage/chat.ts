@@ -15,7 +15,6 @@ import { firebaseDB } from "@/lib/firebase/config";
 import { Plan } from "@/lib/storage/models";
 
 type CreateChatFields = {
-    botName: string;
     language: string;
     topic: string;
     proficiency: string;
@@ -25,10 +24,13 @@ async function createChat(userId: string, fields: CreateChatFields) {
     let result = undefined;
     let error = undefined;
     try {
+        const apiResponse = await (await fetch("/api/bot")).json();
+        const botName = apiResponse.name;
         result = await addDoc(
             collection(firebaseDB, "users", userId, "chats"),
             {
                 ...fields,
+                botName,
                 timestamp: serverTimestamp(),
                 readOnly: false,
                 plan: [],

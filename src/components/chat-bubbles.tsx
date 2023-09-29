@@ -19,11 +19,11 @@ export default function ChatBubbles({
 }) {
     return (
         <>
-            <p className="py-2 px-4 bg-gray-200 rounded-lg rounded-bl-none shadow max-w-[70%]">
+            <p className="py-2 px-4 rounded-lg rounded-bl-none bg-gray-200 max-w-[70%]">
                 {botBody}
             </p>
             <HoverCard>
-                <HoverCardTrigger className="flex gap-1 py-2 px-4 bg-rosetta-sienna text-white rounded-lg rounded-br-none shadow max-w-[70%] self-end">
+                <HoverCardTrigger className="flex gap-1 py-2 px-4 bg-rosetta-navy text-white rounded-lg rounded-br-none shadow max-w-[70%] self-end">
                     <p>{userBody}</p>
                     <div className="self-end">
                         {correct ? <TickIcon /> : <CrossIcon />}

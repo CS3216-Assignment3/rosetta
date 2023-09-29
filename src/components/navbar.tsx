@@ -1,5 +1,6 @@
 import { logOut } from "@/lib/auth";
 import { useAuth } from "@/lib/auth/context";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,9 +9,14 @@ export default function NavBar() {
         <div className="flex justify-between items-center py-4 px-8 border-b shadow">
             <Link
                 href="/"
-                className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-tr from-rosetta-coral to-rosetta-orange"
+                className="text-3xl font-extrabold text-rosetta-navy"
             >
-                Rosetta
+                <Image
+                    src="/rosettafull.png"
+                    alt="rosettafull"
+                    width={150}
+                    height={150}
+                />
             </Link>
             <div className="flex gap-8 items-center">
                 <Links />

@@ -51,7 +51,7 @@ export default function OnboardingPage() {
         <div className="flex flex-col gap-8 items-center pt-12 w-full h-full">
             <h1 className="text-3xl font-bold">
                 {`Let's get to know `}
-                <span className="text-rosetta-sienna">you better</span>!
+                <span className="text-rosetta-orange">you better</span>!
             </h1>
 
             <form
@@ -78,7 +78,7 @@ export default function OnboardingPage() {
                 </label>
                 <button
                     type="submit"
-                    className="py-4 px-8 w-full text-xl font-bold text-center rounded-lg duration-150 ease-in-out hover:text-white text-rosetta-jet bg-rosetta-coral shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
+                    className="py-4 px-8 w-full text-xl font-bold text-center bg-gray-200 rounded-lg duration-150 ease-in-out hover:text-white shadow-inset hover:shadow-inset2 hover:bg-rosetta-orange"
                 >
                     Submit
                 </button>

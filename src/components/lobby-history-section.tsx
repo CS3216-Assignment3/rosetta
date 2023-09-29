@@ -1,8 +1,8 @@
-import LobbyHistoryCard from "@/components/lobby-history-card";
 import { useAuth } from "@/lib/auth/context";
 import { useEffect, useState } from "react";
 import { Chat } from "@/lib/storage/models";
 import { getReadOnlyChatsByUser } from "@/lib/storage/chat";
+import LobbyChatCard from "@/components/lobby-chat-card";
 
 export default function LobbyHistorySection() {
     const { loading, user } = useAuth();
@@ -28,11 +28,19 @@ export default function LobbyHistorySection() {
 
     return (
         <div className="flex flex-col gap-4 w-full h-full">
-            <div className="flex flex-wrap gap-4 w-full h-full">
-                {chats?.map((chat) => (
-                    <LobbyHistoryCard chat={chat} key={chat.id} />
-                ))}
-            </div>
+            {chats?.length !== 0 ? (
+                <div className="flex flex-wrap gap-4 w-full h-full">
+                    {chats?.map((chat) => (
+                        <LobbyChatCard
+                            chat={chat}
+                            url="history"
+                            key={chat.id}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <p>No history</p>
+            )}
         </div>
     );
 }
