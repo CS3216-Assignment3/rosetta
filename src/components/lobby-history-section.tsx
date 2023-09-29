@@ -29,7 +29,7 @@ export default function LobbyHistorySection() {
     return (
         <div className="flex flex-col gap-4 w-full h-full">
             {chats?.length !== 0 ? (
-                <div className="flex flex-wrap gap-4 w-full h-full">
+                <div className="flex flex-wrap gap-4 w-full">
                     {chats?.map((chat) => (
                         <LobbyChatCard
                             chat={chat}
