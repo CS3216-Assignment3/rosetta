@@ -21,6 +21,7 @@ Rosetta should now be running on [localhost:3000](localhost:3000)
 - Rui Quan (A0214563J) - Backend and report writing
 
 ## Resources
-
+- [Learning Langchain](https://js.langchain.com/docs/get_started/quickstart)  
+- [UI Inspiration](https://www.pinterest.com/brooderbrass/cs3216-a3-branding/?invite_code=d390f3ca882e4e058446e89978c2a6e8&sender=732538833048063790)
 
 
