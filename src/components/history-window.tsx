@@ -21,6 +21,7 @@ export default function HistoryWindow() {
     const setMessages = useStore((state) => state.setMessages);
     const [disabled, setDisabled] = useState(false);
     const [greeting, setGreeting] = useState("");
+    const [displayMsg, setDisplayMsg] = useState<Message[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -52,6 +53,8 @@ export default function HistoryWindow() {
                 }
                 setMessages(messagesResult as Message[]);
                 console.log("chatwindow-useEffect", messagesResult);
+
+                setDisplayMsg(messagesResult.toReversed());
 
                 const metadata = await (
                     await fetch(
@@ -127,7 +130,7 @@ export default function HistoryWindow() {
                 id="chat-messages"
                 className="flex overflow-y-auto flex-col-reverse gap-4 w-full h-full no-scrollbar"
             >
-                {messages.toReversed().map((message, idx) => (
+                {displayMsg.map((message, idx) => (
                     <ChatBubbles
                         key={idx}
                         botBody={message.bot}

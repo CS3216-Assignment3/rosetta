@@ -18,6 +18,7 @@ export default function ChatWindow() {
     const formRef = useRef<HTMLFormElement>(null);
     const [disabled, setDisabled] = useState(false);
     const [greeting, setGreeting] = useState("");
+    const [displayMsg, setDisplayMsg] = useState<Message[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -49,6 +50,8 @@ export default function ChatWindow() {
                 }
                 setMessages(messagesResult as Message[]);
                 console.log("chatwindow-useEffect", messagesResult);
+
+                setDisplayMsg(messagesResult.toReversed());
 
                 const metadata = await (
                     await fetch(
@@ -109,6 +112,7 @@ export default function ChatWindow() {
                 throw addMessageError;
             }
             setMessages([...messages, newMessage]);
+            setDisplayMsg([newMessage, ...messages]);
             formRef.current?.reset();
             setDisabled(false);
         } catch (e) {
@@ -126,7 +130,7 @@ export default function ChatWindow() {
                 id="chat-messages"
                 className="flex overflow-y-auto flex-col-reverse gap-4 w-full h-full no-scrollbar"
             >
-                {messages.toReversed().map((message, idx) => (
+                {displayMsg.map((message, idx) => (
                     <ChatBubbles
                         key={idx}
                         botBody={message.bot}

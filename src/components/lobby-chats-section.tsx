@@ -34,7 +34,7 @@ export default function LobbyChatsSection() {
                 New Chat
             </Link>
             {chats?.length !== 0 ? (
-                <div className="flex flex-wrap gap-4 w-full h-full">
+                <div className="flex flex-wrap gap-4 w-full">
                     {chats?.map((chat) => (
                         <LobbyChatCard chat={chat} url="chat" key={chat.id} />
                     ))}
