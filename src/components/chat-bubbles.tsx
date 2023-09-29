@@ -1,10 +1,9 @@
-import CrossIcon from "./ui/cross-icon";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import TickIcon from "./ui/tick-icon";
+import InfoIcon from "./ui/info-icon";
 
 export default function ChatBubbles({
     userBody,
@@ -26,7 +25,7 @@ export default function ChatBubbles({
                 <HoverCardTrigger className="flex gap-1 py-2 px-4 bg-rosetta-navy text-white rounded-lg rounded-br-none shadow max-w-[70%] self-end">
                     <p>{userBody}</p>
                     <div className="self-end">
-                        {correct ? <TickIcon /> : <CrossIcon />}
+                        <InfoIcon />
                     </div>
                 </HoverCardTrigger>
                 <HoverCardContent
