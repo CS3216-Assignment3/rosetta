@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function WelcomePage() {
     return (
-        <div className="flex flex-col gap-12 items-center pt-24 w-full h-full bg-gradient-to-t from-blaze-orange-200">
+        <div className="flex flex-col gap-12 items-center pt-24 w-full h-full">
             <p className="text-7xl font-bold">
                 Welcome to{" "}
                 <span className="font-extrabold text-rosetta-orange">
