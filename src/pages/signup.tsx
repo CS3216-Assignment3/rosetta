@@ -1,3 +1,4 @@
+import GoogleIcon from "@/components/ui/google-icon";
 import { signUp, signUpWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -39,8 +40,9 @@ export default function SignUpPage() {
             <div className="flex flex-col gap-8 items-center w-1/4 h-full">
                 <button
                     onClick={handleSignUpWithGoogle}
-                    className="flex justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow"
+                    className="flex gap-2 justify-center items-center p-4 w-full text-lg rounded-lg border border-gray-200 shadow"
                 >
+                    <GoogleIcon />
                     Connect with Google
                 </button>
 
