@@ -19,13 +19,14 @@ student: {userMessage}
 """
 
 Notes on how to give feedback on the interaction:
-1. Correct my grammar and offer suggestions on how to correct my message if needed
-2. Correct my vocabulary and phrases used, and offer better alternatives if needed
-3. The interaction is casual in nature
-4. Keep your feedback short and concise
-5. If my response was nonsense, please offer suggestions on how I could have responded to my friend
+1. Check my grammar and offer suggestions on how to correct my message if needed
+2. Check my vocabulary and phrases used, and offer better alternatives if needed
+3. Only give feedback on the correctness of the language used
+4. The interaction is casual in nature
+5. If my response was incomprehensible, please offer suggestions on how I could have responded to my friend
 6. I am learning {language} at the {proficiency} level
 7. Give your feedback in {nativeLanguage}
+8. Be deterministic, either there are mistakes or there are none
 `;
 
 const responseSchema = z.object({
