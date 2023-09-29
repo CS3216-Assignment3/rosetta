@@ -19,8 +19,8 @@ student: {userMessage}
 """
 
 Notes on how to give feedback on the interaction:
-1. Check my grammar and offer suggestions on how to correct my message if needed
-2. Check my vocabulary and phrases used, and offer better alternatives if needed
+1. Check my grammar and offer suggestions on how to correct my message
+2. Check my vocabulary and phrases used, and offer better alternatives
 3. Only give feedback on the correctness of the language used
 4. The interaction is casual in nature
 5. If my response was incomprehensible, please offer suggestions on how I could have responded to my friend
