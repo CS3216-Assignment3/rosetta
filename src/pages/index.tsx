@@ -1,6 +1,18 @@
 import Link from "next/link";
+import { useAuth } from "@/lib/auth/context";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function HomePage() {
+    const { loading, user } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && user) {
+            router.push("/lobby");
+        }
+    }, [loading, user]);
+
     return (
         <div className="flex flex-col gap-12 items-center pt-24 w-full h-full">
             <p className="text-5xl font-bold text-center">
